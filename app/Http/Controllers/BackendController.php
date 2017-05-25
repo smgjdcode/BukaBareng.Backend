@@ -64,7 +64,7 @@ class BackendController extends Controller
                         "lower_bound" => $product['wholesale'][$lenght]['lower_bound'], "isMassDrop" => false);
                     $massdrop = $this->massdropRepositoryImpl->getByProductId($product['id']);
                     if(sizeof($massdrop) > 0){
-                        $prod['isMassDrop'] = true;
+                        $prod['is_mass_drop'] = true;
                         $prod['deadline'] =  $massdrop[0]['deadline'];
                         $prod['quantity'] = $massdrop[0]['quantity'];
                     }
