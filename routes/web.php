@@ -13,7 +13,7 @@
 
 
 
-Route::get('/test', ['uses' =>'BackendController@test']);
+Route::post('/auth/ret_user/', ['uses' =>'BackendController@getUser']);
 
 Route::get('/', function () {
     return view('welcome');
