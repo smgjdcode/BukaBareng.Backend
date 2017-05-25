@@ -67,6 +67,7 @@ class BackendController extends Controller
                 }
 
             }
+            $result = array("results" => $result);
             $result = json_encode($result);
             return $result;
 
