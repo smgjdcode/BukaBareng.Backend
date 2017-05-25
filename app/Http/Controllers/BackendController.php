@@ -51,23 +51,24 @@ class BackendController extends Controller
             $result = array();
             foreach ($products as $product){
                 if(isset($product['wholesale'])){
+                    $lenght = sizeof($product['wholesale'])-1;
                     $prod = array("price" => $product['price'], "weight" => $product['weight'], "city" => $product["city"],
                         "image" => $product['images'][0], "desc" => $product['desc'] , "seller_name" => $product['seller_name'],
-                        "product_id" => $product['id']);
-                    $wholesales = $product['wholesale'];
-                    foreach ($wholesales as $wholesale){
-                        $arr = array("lower_bound" => $wholesale['lower_bound'],
-                            "price" => $wholesale['price']);
-                        array_push($prod, $arr);
-                    }
+                        "product_id" => $product['id'],"lower_price" => $product['wholesale'][$lenght]['price'],
+                        "lower_bound" => $product['wholesale'][$lenght]['lower_bound']);
+
+
+//                    foreach ($wholesales as $wholesale){
+//                        $arr = array("lower_bound" => $wholesale['lower_bound'],
+//                            "price" => $wholesale['price']);
+//                        array_push($prod, $arr);
+//                    }
                     array_push($result, $prod);
                 }
 
             }
             $result = json_encode($result);
             return $result;
-
-
 
         } catch (\HttpException $e){
             return $e->getMessage();
