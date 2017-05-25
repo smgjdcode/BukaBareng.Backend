@@ -52,7 +52,8 @@ class BackendController extends Controller
             foreach ($products as $product){
                 if(isset($product['wholesale'])){
                     $prod = array("price" => $product['price'], "weight" => $product['weight'], "city" => $product["city"],
-                        "image" => $product['images'][0], "desc" => $product['desc'] , "seller_name" => $product['seller_name']);
+                        "image" => $product['images'][0], "desc" => $product['desc'] , "seller_name" => $product['seller_name'],
+                        "product_id" => $product['id']);
                     $wholesales = $product['wholesale'];
                     foreach ($wholesales as $wholesale){
                         $arr = array("lower_bound" => $wholesale['lower_bound'],
