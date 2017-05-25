@@ -14,6 +14,7 @@
 
 
 Route::post('/auth/ret_user/', ['uses' =>'BackendController@getUser']);
+Route::get('/get/products', ['uses' =>'BackendController@getProducts']);
 
 Route::get('/', function () {
     return view('welcome');

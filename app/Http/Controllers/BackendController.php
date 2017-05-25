@@ -31,4 +31,50 @@ class BackendController extends Controller
         }
 
     }
+
+    public function getProducts(Request $request){
+        try {
+            $client = new Client();
+            $parameters = [
+                'keywords' => $request['keyword'],
+                'page' => '1',
+                'per_page' => '50'
+            ];
+            $formattedparam = http_build_query($parameters);
+
+            $res = $client->request('GET', "https://api.bukalapak.com/v2/products.json?{$formattedparam}", [
+                'auth' => ['67287', $request['token']]
+            ]);
+
+            $arr = json_decode($res->getBody(), true);
+            $products = $arr['products'];
+            $result = array();
+            foreach ($products as $product){
+                if(isset($product['wholesale'])){
+                    $prod = array("price" => $product['price'], "weight" => $product['weight'], "city" => $product["city"],
+                        "image" => $product['images'][0], "desc" => $product['desc'] , "seller_name" => $product['seller_name']);
+                    $wholesales = $product['wholesale'];
+                    foreach ($wholesales as $wholesale){
+                        $arr = array("lower_bound" => $wholesale['lower_bound'],
+                            "price" => $wholesale['price']);
+                        array_push($prod, $arr);
+                    }
+                    array_push($result, $prod);
+                }
+
+            }
+            $result = json_encode($result);
+            return $result;
+
+
+
+        } catch (\HttpException $e){
+            return $e->getMessage();
+        } catch (\Exception $e){
+
+            return $e->getMessage();
+        }
+    }
+
+
 }
