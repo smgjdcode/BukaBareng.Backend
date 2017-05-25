@@ -14,12 +14,12 @@ class CreateMassdropsTable extends Migration
     public function up()
     {
         Schema::create('massdrops', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('id')->unsigned();
             $table->string('product_id');
             $table->integer('lower_bound');
             $table->integer('lower_price');
             $table->integer("quantity");
-            $table->dateTime('deadline');
+            $table->date('deadline');
             $table->timestamps();
         });
     }

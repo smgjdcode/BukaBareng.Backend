@@ -53,7 +53,7 @@ return [
             'strict' => true,
             'engine' => null,
         ],
-
+//
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => 'ec2-174-129-224-33.compute-1.amazonaws.com',
@@ -66,6 +66,20 @@ return [
             'schema' => 'public',
             'sslmode' => 'prefer',
         ],
+
+//        'pgsql' => [
+//            'driver' => 'pgsql',
+//            'host' => 'localhost',
+//            'port' => '5432',
+//            'database' => 'bukabareng',
+//            'username' => 'postgres',
+//            'password' => 'asdf1234()',
+//            'charset' => 'utf8',
+//            'prefix' => '',
+//            'schema' => 'public',
+//            'sslmode' => 'prefer',
+//        ],
+
 
         'sqlsrv' => [
             'driver' => 'sqlsrv',

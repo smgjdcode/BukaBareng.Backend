@@ -4,11 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use GuzzleHttp\Exception\GuzzleException;
+use App\Http\Repository\MassdropRepositoryImpl;
 use GuzzleHttp\Client;
 
 class BackendController extends Controller
 {
+    private $massdropRepositoryImpl;
 
+    public function __construct(MassdropRepositoryImpl $massdropRepositoryImpl){
+        $this->massdropRepositoryImpl = $massdropRepositoryImpl;
+    }
     public function getUser(Request $request){
         try {
             $client = new Client();
@@ -48,19 +53,28 @@ class BackendController extends Controller
 
             $arr = json_decode($res->getBody(), true);
             $products = $arr['products'];
-            $result = array();
+            $results = array();
             foreach ($products as $product){
                 if(isset($product['wholesale'])){
                     $lenght = sizeof($product['wholesale'])-1;
+
                     $prod = array("price" => $product['price'], "weight" => $product['weight'], "city" => $product["city"],
-                        "image" => $product['images'][0], "desc" => $product['desc'] , "seller_name" => $product['seller_name'],
-                        "product_id" => $product['id'],"lower_price" => $product['wholesale'][$lenght]['price'],
-                        "lower_bound" => $product['wholesale'][$lenght]['lower_bound']);
-                    array_push($result, $prod);
+                        "image" => $product['images'][0], "desc" => $product['desc'], "seller_name" => $product['seller_name'],
+                        "product_id" => $product['id'], "lower_price" => $product['wholesale'][$lenght]['price'],
+                        "lower_bound" => $product['wholesale'][$lenght]['lower_bound'], "isMassDrop" => false);
+                    $massdrop = $this->massdropRepositoryImpl->getByProductId($product['id']);
+                    if(sizeof($massdrop) > 0){
+                        $prod['isMassDrop'] = true;
+                        $prod['deadline'] =  $massdrop[0]['deadline'];
+                        $prod['quantity'] = $massdrop[0]['quantity'];
+                    }
+
+                    array_push($results, $prod);
                 }
             }
-            $result = array("results" => $result);
-            $result = json_encode($result);
+
+            $results = array("results" => $results);
+            $result = json_encode($results);
             return $result;
 
         } catch (\HttpException $e){
