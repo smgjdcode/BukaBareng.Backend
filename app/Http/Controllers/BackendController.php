@@ -27,7 +27,7 @@ class BackendController extends Controller
                     "email" => $response['email'], "token" => $response['token']);
                 return json_encode($result);
             } else {
-                return $response;
+                return json_encode($response);
             }
         } catch (\HttpException $e){
             return $e->getMessage();
