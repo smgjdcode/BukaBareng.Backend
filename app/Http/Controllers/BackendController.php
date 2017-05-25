@@ -56,16 +56,8 @@ class BackendController extends Controller
                         "image" => $product['images'][0], "desc" => $product['desc'] , "seller_name" => $product['seller_name'],
                         "product_id" => $product['id'],"lower_price" => $product['wholesale'][$lenght]['price'],
                         "lower_bound" => $product['wholesale'][$lenght]['lower_bound']);
-
-
-//                    foreach ($wholesales as $wholesale){
-//                        $arr = array("lower_bound" => $wholesale['lower_bound'],
-//                            "price" => $wholesale['price']);
-//                        array_push($prod, $arr);
-//                    }
                     array_push($result, $prod);
                 }
-
             }
             $result = array("results" => $result);
             $result = json_encode($result);
