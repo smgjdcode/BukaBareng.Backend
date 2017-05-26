@@ -54,31 +54,31 @@ return [
             'engine' => null,
         ],
 //
-//        'pgsql' => [
-//            'driver' => 'pgsql',
-//            'host' => 'ec2-174-129-224-33.compute-1.amazonaws.com',
-//            'port' => '5432',
-//            'database' => 'd2viptrdo3qs6b',
-//            'username' => 'iyzlmzlbhqptpz',
-//            'password' => 'cb9cfe920e41806b8a85524dfe4a3bd4e4bdc6d0ae6637807a2f48f621176d98',
-//            'charset' => 'utf8',
-//            'prefix' => '',
-//            'schema' => 'public',
-//            'sslmode' => 'prefer',
-//        ],
-
         'pgsql' => [
             'driver' => 'pgsql',
-            'host' => 'localhost',
+            'host' => 'ec2-174-129-224-33.compute-1.amazonaws.com',
             'port' => '5432',
-            'database' => 'bukabareng',
-            'username' => 'postgres',
-            'password' => 'asdf1234()',
+            'database' => 'd2viptrdo3qs6b',
+            'username' => 'iyzlmzlbhqptpz',
+            'password' => 'cb9cfe920e41806b8a85524dfe4a3bd4e4bdc6d0ae6637807a2f48f621176d98',
             'charset' => 'utf8',
             'prefix' => '',
             'schema' => 'public',
             'sslmode' => 'prefer',
         ],
+
+//        'pgsql' => [
+//            'driver' => 'pgsql',
+//            'host' => 'localhost',
+//            'port' => '5432',
+//            'database' => 'bukabareng',
+//            'username' => 'postgres',
+//            'password' => 'asdf1234()',
+//            'charset' => 'utf8',
+//            'prefix' => '',
+//            'schema' => 'public',
+//            'sslmode' => 'prefer',
+//        ],
 
 
         'sqlsrv' => [
