@@ -20,14 +20,14 @@ class BackendController extends Controller
             $res = $client->request('POST', 'https://api.bukalapak.com/v2/authenticate.json', [
                 'auth' => [$request['email'], $request['password']]
             ]);
-
+            print_r($request);
             $response = json_decode($res->getBody(), true);
             if ($response['status'] == 'OK') {
                 $result = array("id" => $response['user_id'], "user_name" => $response['user_name'],
                     "email" => $response['email'], "token" => $response['token']);
                 return json_encode($result);
             } else {
-                return json_encode($response);
+                return $response;
             }
         } catch (\HttpException $e){
             return $e->getMessage();
