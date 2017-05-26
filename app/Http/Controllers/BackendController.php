@@ -58,7 +58,7 @@ class BackendController extends Controller
                 if(isset($product['wholesale'])){
                     $lenght = sizeof($product['wholesale'])-1;
 
-                    $prod = array("price" => $product['price'], "weight" => $product['weight'], "city" => $product["city"],
+                    $prod = array("name" => $product['name'],"price" => $product['price'], "weight" => $product['weight'], "city" => $product["city"],
                         "image" => $product['images'][0], "desc" => $product['desc'], "seller_name" => $product['seller_name'],
                         "product_id" => $product['id'], "lower_price" => $product['wholesale'][$lenght]['price'],
                         "lower_bound" => $product['wholesale'][$lenght]['lower_bound'], 'is_mass_drop' => false);
