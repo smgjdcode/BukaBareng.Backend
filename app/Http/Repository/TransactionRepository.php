@@ -15,9 +15,11 @@ interface TransactionRepository
 
     public function getById($id);
 
+    public function getByUserId($user_id);
+
     public function create(array $attributes);
 //
-//    public function update($id, array $attributes);
+    public function updateStatus($id, $status);
 //
 //    public function delete($id);
 //}

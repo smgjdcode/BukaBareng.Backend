@@ -13,9 +13,13 @@
 
 
 
-Route::post('/auth/users/', ['uses' =>'BackendController@createUser']);
+Route::post('create/users', ['uses' =>'BackendController@createUser']);
+Route::post('create/transactions', ['uses' =>'BackendController@createTransaction']);
+Route::post('create/payments', ['uses' =>'BackendController@createPayment']);
 Route::get('/get/products', ['uses' =>'BackendController@getProducts']);
 Route::get('/get/users/{id}', ['uses' =>'BackendController@getUser']);
+Route::get('/get/user_transactions/{id}', ['uses' =>'BackendController@getUserTransaction']);
+
 
 Route::get('/', function () {
 //    return view('welcome');

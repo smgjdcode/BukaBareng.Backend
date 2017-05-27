@@ -7,13 +7,13 @@
  */
 
 namespace App\Http\Repository;
-use App\Transaction;
+use App\Buy;
 
 class TransactionRepositoryImpl implements TransactionRepository
 {
     private $transactionModel;
 
-    public function __construct(Transaction $model)
+    public function __construct(Buy $model)
     {
         $this->transactionModel = $model;
     }
@@ -31,6 +31,16 @@ class TransactionRepositoryImpl implements TransactionRepository
     public function create(array $attributes)
     {
         $this->transactionModel->create($attributes);
+//        $this->transactionModel->save();
+    }
+
+    public function getByUserId($user_id){
+        $this->transactionModel->where('user_id', $user_id)->get();
+    }
+
+    public function updateStatus($id, $status){
+        $result = $this->transactionModel->where('id', $id)->update(['status' => $status]);
+        return $result;
     }
 
 

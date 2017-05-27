@@ -33,4 +33,9 @@ class UserRepositoryImplemented implements UserRepository
         $result = $this->userModel->where('id', $id)->update($attributes);
         return $result;
     }
+
+    public function updateBalance($id, $balance){
+        $result = $this->userModel->where('id', $id)->update(['balance' => $balance]);
+        return $result;
+    }
 }

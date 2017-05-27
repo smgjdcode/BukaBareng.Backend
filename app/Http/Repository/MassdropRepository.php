@@ -16,6 +16,8 @@ interface MassdropRepository
 
     public function getByProductId($id);
 
+    public function updateQuantity($id, $quantity);
+
     public function create(array $attributes);
 
 //    public function update($id, array $attributes);

@@ -16,6 +16,8 @@ class CreateMassdropsTable extends Migration
         Schema::create('massdrops', function (Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->string('product_id');
+            $table->string('product_name');
+            $table->string('product_img');
             $table->integer('lower_bound');
             $table->integer('lower_price');
             $table->integer("quantity");

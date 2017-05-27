@@ -21,5 +21,7 @@ interface UserRepository
 
     public function update($id, array $attributes);
 
+    public function updateBalance($id, $balance);
+
 //    public function delete($id);
 }

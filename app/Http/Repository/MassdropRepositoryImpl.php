@@ -40,5 +40,10 @@ class MassdropRepositoryImpl implements MassdropRepository
         $this->massdropmodel->create($attributes);
     }
 
+    public function updateQuantity($id, $quantity){
+        $result = $this->massdropmodel->where('id', $id)->update(['quantity' => $quantity]);
+        return $result;
+    }
+
 
 }
