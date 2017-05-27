@@ -19,7 +19,8 @@ class CreateTransactionsTable extends Migration
             $table->increments('id');
             $table->bigInteger('jumlah');
             $table->integer('massdrop_id')->unsigned();
-            $table->integer('user_id')->unsigned();
+            $table->string('user_id')->unsigned();
+            $table->integer('status');
             $table->foreign('massdrop_id')->references('id')->on('massdrops');
             $table->foreign('user_id')->references('id')->on('users');
 

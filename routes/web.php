@@ -13,8 +13,9 @@
 
 
 
-Route::post('/auth/ret_user/', ['uses' =>'BackendController@getUser']);
+Route::post('/auth/users/', ['uses' =>'BackendController@createUser']);
 Route::get('/get/products', ['uses' =>'BackendController@getProducts']);
+Route::get('/get/users/{id}', ['uses' =>'BackendController@getUser']);
 
 Route::get('/', function () {
 //    return view('welcome');

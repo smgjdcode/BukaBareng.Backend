@@ -23,6 +23,11 @@ class UserRepositoryImplemented implements UserRepository
         return $this->userModel->find($id);
     }
 
+    public function create(array $attributes)
+    {
+        $this->userModel->create($attributes);
+    }
+
 
     public function update($id, array $attributes){
         $result = $this->userModel->where('id', $id)->update($attributes);

@@ -6,35 +6,74 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Exception\GuzzleException;
 use App\Http\Repository\MassdropRepositoryImpl;
 use GuzzleHttp\Client;
+use App\Http\Repository\UserRepositoryImplemented;
 
 class BackendController extends Controller
 {
     private $massdropRepositoryImpl;
+    private $userRepositoryImpl;
 
-    public function __construct(MassdropRepositoryImpl $massdropRepositoryImpl){
+    public function __construct(MassdropRepositoryImpl $massdropRepositoryImpl, UserRepositoryImplemented $userRepositoryImplemented){
         $this->massdropRepositoryImpl = $massdropRepositoryImpl;
+        $this->userRepositoryImpl = $userRepositoryImplemented;
     }
-    public function getUser(Request $request){
-        try {
-            $client = new Client();
-            $res = $client->request('POST', 'https://api.bukalapak.com/v2/authenticate.json', [
-                'auth' => [$request['email'], $request['password']]
-            ]);
-//            print_r($request);
-            $response = json_decode($res->getBody(), true);
-            if ($response['status'] == 'OK') {
-                $result = array("id" => $response['user_id'], "user_name" => $response['user_name'],
-                    "email" => $response['email'], "token" => $response['token']);
-                return json_encode($result);
+//    public function getUser(Request $request){
+//        try {
+//            $client = new Client();
+//            $res = $client->request('POST', 'https://api.bukalapak.com/v2/authenticate.json', [
+//                'auth' => [$request['email'], $request['password']]
+//            ]);
+////            print_r($request);
+//            $response = json_decode($res->getBody(), true);
+//            if ($response['status'] == 'OK') {
+//                $result = array("id" => $response['user_id'], "user_name" => $response['user_name'],
+//                    "email" => $response['email'], "token" => $response['token']);
+//                return json_encode($result);
+//            } else {
+//                return json_encode($response);
+//            }
+//        } catch (\HttpException $e){
+//            return $e->getMessage();
+//        } catch (\Exception $e){
+//            return $e->getMessage();
+//        }
+//
+//    }
+
+    public function getUser($id){
+        try{
+
+            $user = $this->userRepositoryImpl->getById($id);
+            if(sizeof($user) > 0) {
+                $result = array('user_id' => $user['id'], 'user_name' => $user['username'],
+                    'balance' => $user['balance']);
             } else {
-                return json_encode($response);
+                $result = array('status' => "404");
+            }
+            return json_encode($result);
+        } catch (\Exception $e){
+            $e->getMessage();
+        }
+    }
+
+    public function createUser(Request $request){
+        try {
+            $users = $this->userRepositoryImpl->getById($request['id']);
+            if(sizeof($users) < 1){
+                $attributes = array('id' => $request['id'], 'balance' => $request['balance'],
+                    'username' => $request['username'] );
+                $this->userRepositoryImpl->create($attributes);
+                $status = array("results" => array("status" => "OK"));
+                return json_encode($status);
+            } else {
+                $status = array("results" => array("status" => "User sudah ada"));
+                return json_encode($status);
             }
         } catch (\HttpException $e){
             return $e->getMessage();
         } catch (\Exception $e){
             return $e->getMessage();
         }
-
     }
 
     public function getProducts(Request $request){
