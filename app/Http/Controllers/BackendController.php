@@ -63,17 +63,19 @@ class BackendController extends Controller
     public function getUserTransaction($user_id){
 //        $transactions = $this->transactionRepositoryImpl->getByUserId($user_id);
         try {
-            $query = 'Select t.id, t.bought_time, m.deadline, m.lower_price, m.lower_bound, m.quantity from buys t inner join massdrops m on m.id = t.massdrop_id where t.user_id =  ?  ';
+            $query = 'Select t.id, t.bought_time, m.deadline, m.lower_price, m.lower_bound, m.quantity, t.status from buys t inner join massdrops m on m.id = t.massdrop_id where t.user_id =  ?  ';
             $transactions = DB::select($query, [$user_id]);
             foreach ($transactions as $transaction) {
-                if ($transaction->bought_time <= $transaction->deadline) {
-                    if ($transaction->quantity < $transaction->lower_bound) {
-                        $res = $this->transactionRepositoryImpl->updateStatus($transaction->id, 2);
-                    } elseif ($transaction->quantity >= $transaction->lower_bound) {
-                        $res = $this->transactionRepositoryImpl->updateStatus($transaction->id, 1);
+                if($transaction->status < 3) {
+                    if ($transaction->bought_time <= $transaction->deadline) {
+                        if ($transaction->quantity < $transaction->lower_bound) {
+                            $res = $this->transactionRepositoryImpl->updateStatus($transaction->id, 2);
+                        } elseif ($transaction->quantity >= $transaction->lower_bound) {
+                            $res = $this->transactionRepositoryImpl->updateStatus($transaction->id, 1);
+                        }
+                    } else {
+                        $res = $this->transactionRepositoryImpl->updateStatus($transaction->id, 0);
                     }
-                } else {
-                    $res = $this->transactionRepositoryImpl->updateStatus($transaction->id, 0);
                 }
             }
             $query = 'Select  t.id, t.bought_time, m.product_img, m.lower_price, m.product_name, t.jumlah, t.status from buys t inner join massdrops m on m.id = t.massdrop_id where t.user_id =  ?  ';
@@ -146,10 +148,11 @@ class BackendController extends Controller
                 $user = $this->userRepositoryImpl->getById($user_id);
                 $remaining_balance = $user['balance'] - $total_payment;
                 if($remaining_balance < 0){
-
+                    $status = array("status" => "failed");
                 } else {
                     $res = $this->userRepositoryImpl->updateBalance($user_id,$remaining_balance);
                     $status = array("status" => "succes");
+                    $res = $this->transactionRepositoryImpl->updateStatus($transaction['id'], 3);
                 }
                 return json_encode($status);
             }

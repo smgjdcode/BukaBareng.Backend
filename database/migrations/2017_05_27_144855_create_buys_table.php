@@ -23,6 +23,7 @@ class CreateBuysTable extends Migration
             $table->date('bought_time');
             $table->timestamps();
             $table->foreign('massdrop_id')->references('id')->on('massdrops');
+            $table->foreign('product_id')->references('product_id')->on('massdrops');
             $table->foreign('user_id')->references('id')->on('users');
         });
     }
